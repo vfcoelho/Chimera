@@ -1,5 +1,32 @@
 import sys
+import os
 from lib.input_commands import InputCommands
+import logging
+import configs as Configs
+from datetime import datetime
+
+
+def logger(client):
+    directory = 'logs'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    now = (datetime.now())
+    logging.basicConfig(filename='{}/{}.txt'.format(directory,now.strftime('%Y-%m-%d')))
+    log = logging.getLogger()
+    
+    async def decorator(f):
+        try:
+            return await f(*args,**kwargs)
+        except Exception as e:
+            message = '{} - [{}] while executing ![{}] with params [{}] and named params [{}]'.format(now.strftime('%Y-%m-%d %H:%M:%S'),str(e),f.__name__,args,kwargs)
+            if Configs.DISK_LOGS_ENABLED:
+                log.error(message)
+            if Configs.discord_logs_enabled:
+                await client.say(message)
+            raise
+    
+    new_f.__name__ = f.__name__
+    return new_f
 
 def get_operating():
     platforms = {

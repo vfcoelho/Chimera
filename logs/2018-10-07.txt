@@ -1,0 +1,4 @@
+ERROR:root:Error [Fatal Rabbit] while executing ![logs] with params [()] and named params [{}]
+ERROR:root:Error [Fatal Rabbit] while executing ![logs] with params [()] and named params [{}]
+ERROR:root:Error [Fatal Rabbit] while executing ![logs] with params [()] and named params [{}]
+ERROR:root:2018-10-07 05:23:41 - Error [Fatal Rabbit] while executing ![logs] with params [()] and named params [{}]
