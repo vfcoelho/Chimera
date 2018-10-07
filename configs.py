@@ -1,5 +1,0 @@
-BOT_TOKEN = 'Enter Token Here'
-
-CHANNEL_ID = 'Enter Channel ID Here'
-
-PYTHON_ALIAS = 'python' #only change if you have multiple python installationsinitial_display_output = Trueinitial_location = ''
