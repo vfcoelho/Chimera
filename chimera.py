@@ -287,10 +287,4 @@ async def echo(status):
     else:
         await client.say("Parameter of echo can be off or on. ")
 
-
-@client.command()
-@logger
-async def logs():
-    raise Exception("Fatal Rabbit")
-
 client.run(Configs.BOT_TOKEN)
